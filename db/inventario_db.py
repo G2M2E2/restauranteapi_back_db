@@ -1,3 +1,17 @@
+from sqlalchemy import Column, Integer, String, Date, BigInteger
+from db.db_conection import Base, engine
+
+class ProductoInDB(Base):
+    __tablename__ = "producto"
+    id_producto = Column(String, primary_key=True, unique=True)
+    nombre= Column(String)
+    precio= Column(BigInteger)
+    cantidad= Column(Integer)
+    categoria= Column(String)
+
+Base.metadata.create_all(bind=engine)    
+
+
 '''
 from typing import Dict
 from pydantic import BaseModel
