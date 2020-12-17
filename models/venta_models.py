@@ -18,10 +18,9 @@ class VentaAdd(BaseModel):
     
     id_producto           : str
     cantidad_producto     : int
-    nombre_producto       : str
-    precio_producto       : int
+      
     telefono              : int
-    fecha_venta           : str
+    
 
 
 class VentaOut(BaseModel):
@@ -32,7 +31,7 @@ class VentaOut(BaseModel):
     precio_producto       : int
     telefono              : int
     sub_total             : int
-    fecha_venta           : str
+    fecha_venta           : datetime
 
 
     class Config:

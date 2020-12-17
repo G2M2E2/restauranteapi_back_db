@@ -11,6 +11,7 @@ from db.cliente_db   import ClienteInDB
 from models.cliente_models import ClienteIn, ClienteOut, ClienteInCreate
 from db.venta_db import VentaInDB
 from models.venta_models import VentaInConsulta, VentaAdd, VentaOut
+from datetime import datetime
 
 
 router = APIRouter()
@@ -25,9 +26,13 @@ async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
         for venta in venta_old_test:
             id_new=venta.venta_id
 
-
-    subtotal_new = new_venta.cantidad_producto * new_venta.precio_producto
-    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new,venta_id=id_new)
+    id_prod=new_venta.id_producto
+    producto_in_db = db.query(ProductoInDB).get(id_prod)
+    nom_pr=producto_in_db.nombre
+    precio=producto_in_db.precio
+    subtotal_new = new_venta.cantidad_producto *precio
+    fecha=datetime.utcnow()
+    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new,venta_id=id_new, fecha_venta=fecha,nombre_producto=nom_pr,precio_producto=precio)
     db.add(venta_in_db)
     db.commit()
     db.refresh(venta_in_db)
@@ -57,7 +62,7 @@ async def comprar_venta( db: Session = Depends(get_db)):
     "precio_producto":   0,
     "cantidad_producto": 0,
     "sub_total":0,
-    "fecha_venta":       "hoy",
+    "fecha_venta":       datetime.utcnow(),
     "telefono":          3137878599
     }
 
