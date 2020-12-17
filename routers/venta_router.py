@@ -19,23 +19,58 @@ router = APIRouter()
 
 @router.post("/venta/crear/",response_model=VentaOut)
 async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
-    '''
-     id_producto_new = new_venta.id_producto
-     cant_producto_new = new_venta.cantidad_producto
-     nombre_producto_new = new_venta.nombre_producto
-     precio_producto_new = new_venta.precio_producto
-     telefono_producto_new = new_venta.telefono
-     
-     venta_id_new = new_venta.venta_id
-    '''
+    venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
+    id_lista=[]
+    if  venta_old_test: 
+        for venta in venta_old_test:
+            id_new=venta.venta_id
+
+
     subtotal_new = new_venta.cantidad_producto * new_venta.precio_producto
-    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new)
+    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new,venta_id=id_new)
     db.add(venta_in_db)
     db.commit()
     db.refresh(venta_in_db)
     return venta_in_db
 
 
+
+@router.get("/venta/comprar/",response_model=VentaOut)
+async def comprar_venta( db: Session = Depends(get_db)):
+    
+    venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
+    if  venta_old_test: 
+        for venta in venta_old_test:
+            db.delete(venta)
+            db.commit()
+    
+
+    ventas_totales = db.query(VentaInDB).all()
+    ids=0
+    for venta in ventas_totales:
+        ids=venta.venta_id
+
+    venta_prueba={
+    "venta_id":          ids+1,
+    "id_producto":       "xx00",
+    "nombre_producto":   "prueba",
+    "precio_producto":   0,
+    "cantidad_producto": 0,
+    "sub_total":0,
+    "fecha_venta":       "hoy",
+    "telefono":          3137878599
+    }
+
+    venta_in_db=VentaInDB(**venta_prueba)
+    db.add(venta_in_db)
+    db.commit()
+    db.refresh(venta_in_db)
+    return venta_in_db
+
+@router.get("/venta/lista/")
+async def listar(db: Session = Depends(get_db)):
+    lista = db.query(VentaInDB).all()
+    return lista    
 
 
 

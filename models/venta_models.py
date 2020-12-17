@@ -15,7 +15,7 @@ class VentaInConsulta(BaseModel):
     cantidad_producto     : int
 
 class VentaAdd(BaseModel):
-    venta_id              : int
+    
     id_producto           : str
     cantidad_producto     : int
     nombre_producto       : str
