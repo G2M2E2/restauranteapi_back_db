@@ -21,7 +21,7 @@ router = APIRouter()
 async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
     venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
     id_new=1
-    if  venta_old_test: 
+    if  venta_old_test !=[]: 
         for venta in venta_old_test:
             id_new=venta.venta_id
 
@@ -39,7 +39,7 @@ async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
 async def comprar_venta( db: Session = Depends(get_db)):
     
     venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
-    if  venta_old_test: 
+    if  venta_old_test!=[]: 
         for venta in venta_old_test:
             db.delete(venta)
             db.commit()
