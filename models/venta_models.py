@@ -1,3 +1,48 @@
+from pydantic import BaseModel
+from datetime import datetime
+
+'''
+class VentaIn(BaseModel):
+    id_producto           : str
+    cantidad_producto     : int
+
+'''
+
+
+class VentaInConsulta(BaseModel):
+    venta_id              : int
+    id_producto           : str
+    cantidad_producto     : int
+
+class VentaAdd(BaseModel):
+    venta_id              : int
+    id_producto           : str
+    cantidad_producto     : int
+    nombre_producto       : str
+    precio_producto       : int
+    telefono              : int
+    fecha_venta           : str
+
+
+class VentaOut(BaseModel):
+    venta_id              : int
+    id_producto           : str
+    cantidad_producto     : int
+    nombre_producto       : str
+    precio_producto       : int
+    telefono              : int
+    sub_total             : int
+    fecha_venta           : str
+
+
+    class Config:
+        orm_mode = True
+
+
+
+
+
+
 '''
 from pydantic import BaseModel
 from datetime import datetime

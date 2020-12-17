@@ -2,7 +2,8 @@
 from fastapi import Depends, FastAPI
 
 from routers.cliente_router  import router as router_clientes 
-from routers.inventario_router  import router as router_productos  
+from routers.inventario_router  import router as router_productos 
+from routers.venta_router import router as router_ventas
 
 app = FastAPI()
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,6 +17,7 @@ allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 app.include_router(router_clientes)
 app.include_router(router_productos)
+app.include_router(router_ventas)
 
 '''
 from db.usuario_db import UsuarioInDB

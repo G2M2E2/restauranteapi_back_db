@@ -1,3 +1,17 @@
+from sqlalchemy import Column, Integer, String
+from db.db_conection import Base, engine
+
+class UsuarioInDB(Base):
+    __tablename__ = "usuario"
+    
+    username    = Column(String, primary_key=True, unique=True)
+    password    = Column(String)
+   
+    
+
+Base.metadata.create_all(bind=engine)
+
+
 '''
 from typing import Dict
 from pydantic import BaseModel
