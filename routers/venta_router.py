@@ -20,7 +20,7 @@ router = APIRouter()
 @router.post("/venta/crear/",response_model=VentaOut)
 async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
     venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
-    id_lista=[]
+    id_new=1
     if  venta_old_test: 
         for venta in venta_old_test:
             id_new=venta.venta_id
