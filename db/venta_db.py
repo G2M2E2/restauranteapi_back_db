@@ -1,3 +1,27 @@
+from sqlalchemy import Column, Integer, String, Date, BigInteger, ForeignKey, DateTime
+from db.db_conection import Base, engine
+import datetime
+
+
+class VentaInDB(Base):
+    __tablename__ = "venta"
+    venta_id          = Column(Integer, primary_key=True)
+    id_producto       = Column(String, ForeignKey('producto.id_producto'), primary_key=True) ###entrada
+    nombre_producto   = Column(String) ##Estas variables son para busqueda en inventario y agregar al carrito
+    precio_producto   = Column(BigInteger) ##Estas variables son para busqueda en inventario y agregar al carrito
+    sub_total         = Column(BigInteger) ##Calculo cantidad * precio
+    cantidad_producto = Column(Integer) ## entradas
+    fecha_venta       = Column(String)
+    telefono          = Column(BigInteger, ForeignKey('cliente.telefono'), primary_key=True) ##Estas variables son para busqueda en clientes y agregar en carrito
+
+
+Base.metadata.create_all(bind=engine)  
+
+
+
+
+
+
 '''
 from typing import Dict
 from datetime import datetime
