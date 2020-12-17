@@ -44,9 +44,8 @@ async def register_prodcutos(new_producto: ProductoInAdd, db: Session = Depends(
 
 @router.get("/producto/lista/")
 async def buscar_productos(db: Session = Depends(get_db)):
-    busqueda = db.query(ProductoInDB).filter(ProductoInDB.nombre.like('churrasco 1/4')).all()
-    print(busqueda)
-   
+    busqueda = db.query(ProductoInDB).all()
+      
     return busqueda
 
 @router.get("/producto/consulta_n/{snombre}")
@@ -59,3 +58,15 @@ async def get_producto(snombre: str, db: Session = Depends(get_db)):
 
     print(producto_in_db[0].categoria)   
     return producto_in_db
+
+
+@router.get("/producto/consulta_g/{scategoria}")
+async def get_producto(scategoria: str, db: Session = Depends(get_db)):
+    producto=scategoria+"%"
+    producto_in_db = db.query(ProductoInDB).filter(ProductoInDB.categoria.like(producto)).all()
+
+    if producto_in_db == None:
+        raise HTTPException(status_code=404, detail="El producto no existe")
+
+    print(producto_in_db[0].categoria)   
+    return producto_in_db    
