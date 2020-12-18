@@ -74,7 +74,8 @@ async def comprar_venta( db: Session = Depends(get_db)):
 
 @router.get("/venta/lista/")
 async def listar(db: Session = Depends(get_db)):
-    lista = db.query(VentaInDB).all()
+    prueba= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).one()
+    lista = db.query(VentaInDB).filter(VentaInDB.id_producto!=prueba.id_producto).all()
     return lista    
 
 
