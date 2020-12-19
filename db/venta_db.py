@@ -12,6 +12,7 @@ class VentaInDB(Base):
     sub_total         = Column(BigInteger) ##Calculo cantidad * precio
     cantidad_producto = Column(Integer) ## entradas
     fecha_venta       = Column(DateTime, default=datetime.datetime.utcnow)
+    observaciones     = Column(String)
     telefono          = Column(BigInteger, ForeignKey('cliente.telefono'), primary_key=True) ##Estas variables son para busqueda en clientes y agregar en carrito
 
 

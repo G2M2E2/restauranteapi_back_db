@@ -16,12 +16,14 @@ class VentaInConsulta(BaseModel):
     venta_id              : int
     id_producto           : str
     cantidad_producto     : int
+    observaciones         : str
 
 class VentaAdd(BaseModel):
     
     id_producto           : str
     cantidad_producto     : int
     telefono              : int
+    observaciones         : str
     
 
 
@@ -34,6 +36,7 @@ class VentaOut(BaseModel):
     telefono              : int
     sub_total             : int
     fecha_venta           : datetime
+    observaciones         : str
 
 
     class Config:

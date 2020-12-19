@@ -33,7 +33,8 @@ async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
     precio=producto_in_db.precio
     subtotal_new = new_venta.cantidad_producto *precio
     fecha=datetime.utcnow()
-    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new,venta_id=id_new, fecha_venta=fecha,nombre_producto=nom_pr,precio_producto=precio)
+    obs=new_venta.observaciones
+    venta_in_db = VentaInDB(**new_venta.dict(),sub_total=subtotal_new,venta_id=id_new, fecha_venta=fecha,nombre_producto=nom_pr, precio_producto=precio)
     db.add(venta_in_db)
     db.commit()
     db.refresh(venta_in_db)
@@ -65,7 +66,8 @@ async def comprar_venta( db: Session = Depends(get_db)):
     "cantidad_producto": 0,
     "sub_total":0,
     "fecha_venta":       datetime.utcnow(),
-    "telefono":          3137878599
+    "telefono":          3137878599,
+    "observaciones":    ""
     }
 
     venta_in_db=VentaInDB(**venta_prueba)
@@ -89,29 +91,3 @@ async def venta_elimiar(del_venta: VentaInDelete, db: Session = Depends(get_db))
     
     return "se eliminó del carrito"    
 
-'''
-
-
-@api.put("/transaccion/make/")
-async def make_transaccion(new_transaccion: TransaccionIn):
-    #venta_new = new_transaccion.venta_id
-    #if id == None:        
-    #  raise HTTPException(status_code=404, detail="El producto no existe")
-    
-    #Para agregarle el id de venta automáticamente
-    ventas = get_all_ventas()
-    #Elige el id de la última venta
-    venta = ventas[len(ventas)-1]
-
-    productos = get_all_productos_dict()
-    producto = productos[len(productos)-1]
-    precio = producto["precio"]
-   
-    subtotal = new_transaccion.cant_pedido * precio
-
-    transaccion_ingresar = TransaccionInDB(**new_transaccion.dict(), venta_id=venta["venta_id"],tran_subtotal=subtotal )
-    #transaccion_ingresar = TransaccionInDB(**new_transaccion.dict(), venta_id=new_transaccion.transaccion_id)
-    transaccion_in_db = save_transaccion(transaccion_ingresar)
-    transaccion_out=TransaccionOut(**transaccion_in_db.dict())
-    return  transaccion_out
-'''
