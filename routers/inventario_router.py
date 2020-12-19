@@ -27,12 +27,13 @@ async def register_prodcutos(new_producto: ProductoInAdd, db: Session = Depends(
     productos_in_db = db.query(ProductoInDB).all()
     id_actual=cat_new[:2]+'00'
     num_list=[]
+    num = 0
     for producto in productos_in_db:
         if cat_new==producto.categoria:
             id_actual=producto.id_producto
             num_list.append(int(id_actual[2:]))
-        print(num_list)
-        cat=id_actual[:2]
+    cat=id_actual[:2]
+    if num_list != []:
         num=max(num_list) 
     if num<9:
         id_new=cat+'0'+str(num+1)
@@ -48,7 +49,6 @@ async def register_prodcutos(new_producto: ProductoInAdd, db: Session = Depends(
 @router.get("/producto/lista/")
 async def buscar_productos(db: Session = Depends(get_db)):
     busqueda = db.query(ProductoInDB).all()
-      
     return busqueda
 
 @router.get("/producto/consulta_n/{snombre}")
