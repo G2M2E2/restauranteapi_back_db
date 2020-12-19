@@ -27,7 +27,8 @@ async def crear_venta(new_venta: VentaAdd, db: Session = Depends(get_db)):
     if  venta_old_test !=[]: 
         for venta in venta_old_test:
             id_lista.append(venta.venta_id)
-    id_new=max(id_lista)
+    if id_lista!=[]:
+        id_new=max(id_lista)
     id_prod=new_venta.id_producto
     producto_in_db = db.query(ProductoInDB).get(id_prod)
     nom_pr=producto_in_db.nombre
@@ -59,7 +60,8 @@ async def comprar_venta( db: Session = Depends(get_db)):
     id_lista=[]
     for venta in ventas_totales:
         id_lista.append(venta.venta_id)
-    ids=max(id_lista)    
+    if  id_lista!=[]:
+        ids=max(id_lista)    
 
     venta_prueba={
     "venta_id":          ids+1,
