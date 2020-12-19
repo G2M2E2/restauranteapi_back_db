@@ -26,11 +26,14 @@ async def register_prodcutos(new_producto: ProductoInAdd, db: Session = Depends(
     cat_new=new_producto.categoria
     productos_in_db = db.query(ProductoInDB).all()
     id_actual=cat_new[:2]+'00'
+    num_list=[]
     for producto in productos_in_db:
         if cat_new==producto.categoria:
             id_actual=producto.id_producto
-    cat=id_actual[:2]
-    num=int(id_actual[2:])
+            num_list.append(int(id_actual[2:]))
+        print(num_list)
+        cat=id_actual[:2]
+        num=max(num_list) 
     if num<9:
         id_new=cat+'0'+str(num+1)
     else:
