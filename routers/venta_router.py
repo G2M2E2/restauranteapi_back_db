@@ -96,3 +96,15 @@ async def venta_elimiar(del_venta: VentaInDelete, db: Session = Depends(get_db))
     
     return "se eliminó del carrito"    
 
+@router.get("/venta/carrito/")
+async def crear_venta(db: Session = Depends(get_db)):
+    venta_old_test= db.query(VentaInDB).filter(VentaInDB.id_producto.like('xx%')).all()
+    id_new=1
+    id_lista=[]
+    if  venta_old_test !=[]: 
+        for venta in venta_old_test:
+            id_lista.append(venta.venta_id)
+    if id_lista!=[]:
+        id_new=max(id_lista)
+    carrito=db.query(VentaInDB).filter((VentaInDB.venta_id==id_new )).filter(~VentaInDB.id_producto.like('xx%')).all()
+    return carrito
