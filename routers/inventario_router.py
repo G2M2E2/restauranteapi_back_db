@@ -59,7 +59,7 @@ async def get_producto(snombre: str, db: Session = Depends(get_db)):
     print(producto_in_db[0].categoria)   
     return producto_in_db
 
-@router.post("/producto/actualizar/",response_model=ProductoOut)
+@router.put("/producto/actualizar/",response_model=ProductoOut)
 async def update_cliente(producto_in: ProductoOut, db: Session = Depends(get_db)):
     
     producto_upd = db.query(ProductoInDB).get(producto_in.id_producto)

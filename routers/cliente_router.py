@@ -32,7 +32,7 @@ async def register_cliente(cliente_in: ClienteInCreate, db: Session = Depends(ge
 
     return cliente_in_db
 
-@router.post("/cliente/actualizar/",response_model=ClienteOut)
+@router.put("/cliente/actualizar/",response_model=ClienteOut)
 async def update_cliente(cliente_in: ClienteInCreate, db: Session = Depends(get_db)):
     
     cliente_upd = db.query(ClienteInDB).get(cliente_in.telefono)
