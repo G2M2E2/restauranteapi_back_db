@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from db.db_conection import get_db
 from db.inventario_db   import ProductoInDB
-from models.inventario_models import ProductoIn, ProductoInAdd, ProductoOut
+from models.inventario_models import ProductoIn, ProductoInAdd, ProductoOut ,ProductoInDelete
 
 
 router = APIRouter()
@@ -59,6 +59,17 @@ async def get_producto(snombre: str, db: Session = Depends(get_db)):
     print(producto_in_db[0].categoria)   
     return producto_in_db
 
+@router.post("/producto/actualizar/",response_model=ProductoOut)
+async def update_cliente(producto_in: ProductoOut, db: Session = Depends(get_db)):
+    
+    producto_upd = db.query(ProductoInDB).get(producto_in.id_producto)
+    producto_upd.nombre=producto_in.nombre
+    producto_upd.precio=producto_in.precio 
+    producto_upd.cantidad=producto_in.cantidad
+    producto_upd.categoria=producto_in.categoria
+    db.commit()
+    return producto_upd   
+
 
 @router.get("/producto/consulta_g/{scategoria}")
 async def get_producto(scategoria: str, db: Session = Depends(get_db)):
@@ -69,4 +80,13 @@ async def get_producto(scategoria: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="El producto no existe")
 
     print(producto_in_db[0].categoria)   
-    return producto_in_db    
+    return producto_in_db
+
+@router.delete("/producto/eliminar/")
+async def producto_elimiar(prod_del:ProductoInDelete, db: Session = Depends(get_db)):
+    producto_to_del = db.query(ProductoInDB).get(prod_del.id_producto)
+    nombre_pro=producto_to_del.nombre
+    db.delete(producto_to_del)
+    db.commit()
+    
+    return "se eliminó "+ nombre_pro     

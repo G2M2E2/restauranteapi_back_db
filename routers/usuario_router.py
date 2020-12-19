@@ -41,3 +41,5 @@ async def register_user(user_in: UsuarioIn, db: Session = Depends(get_db)):
     db.refresh(user_in_db)
 
     return user_in_db
+
+    

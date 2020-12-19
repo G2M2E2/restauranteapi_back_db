@@ -10,7 +10,7 @@ from models.inventario_models import ProductoIn, ProductoInAdd, ProductoOut
 from db.cliente_db   import ClienteInDB
 from models.cliente_models import ClienteIn, ClienteOut, ClienteInCreate
 from db.venta_db import VentaInDB
-from models.venta_models import VentaInConsulta, VentaAdd, VentaOut
+from models.venta_models import VentaInConsulta, VentaAdd, VentaOut ,VentaInDelete
 from datetime import datetime
 
 
@@ -81,7 +81,13 @@ async def listar(db: Session = Depends(get_db)):
     return lista    
 
 
-
+@router.delete("/venta/eliminar/")
+async def venta_elimiar(del_venta: VentaInDelete, db: Session = Depends(get_db)):
+    venta_to_del = db.query(VentaInDB).get([del_venta.venta_id,del_venta.id_producto,del_venta.telefono])
+    db.delete(venta_to_del)
+    db.commit()
+    
+    return "se eliminó del carrito"    
 
 '''
 

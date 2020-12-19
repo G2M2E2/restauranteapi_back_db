@@ -1,5 +1,10 @@
 from pydantic import BaseModel
 
+
+class ProductoInDelete(BaseModel):
+    id_producto: str
+    
+
 class ProductoIn(BaseModel):
     id_producto: str
     nombre: str

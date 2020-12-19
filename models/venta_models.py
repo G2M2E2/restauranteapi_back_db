@@ -7,8 +7,11 @@ class VentaIn(BaseModel):
     cantidad_producto     : int
 
 '''
-
-
+class VentaInDelete(BaseModel):
+    venta_id              : int
+    id_producto           : str
+    telefono              : int
+    
 class VentaInConsulta(BaseModel):
     venta_id              : int
     id_producto           : str
@@ -18,7 +21,6 @@ class VentaAdd(BaseModel):
     
     id_producto           : str
     cantidad_producto     : int
-      
     telefono              : int
     
 
